@@ -6,4 +6,4 @@ Un exemple de site publié sur github.io.
 
 * [La trousse IA du RÉCIT MST](https://pierrelachance.github.io/trousse-ia.html)
 * [Infographie Défier l'IA :l'analyse de sources](https://recitmst.qc.ca/exemple-analyse-sources-court.html)
-* [INfographie Défier l'IA : L'expert face à l'habitat](https://recitmst.qc.ca/IMG/html/infographie-courte-habitats-neuroscience.html)
+* [Infographie Défier l'IA : L'expert face à l'habitat](https://recitmst.qc.ca/IMG/html/infographie-courte-habitats-neuroscience.html)
