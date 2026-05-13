@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Répertoire des activités pédagogiques produites par l'ingénierie RÉCIT MST.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+<!-- Favicon RÉCIT -->
+<link rel="shortcut icon" href="https://recitmst.qc.ca/favicon.ico" />
+    <title>Activités RÉCIT MST</title>
+    <style>
+        /* ============================================
+           VARIABLES ET RESET
+           ============================================ */
+        :root {
+            --accent-primary: #0069bf;
+            --accent-secondary: #faa22a;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --text-light: #64748b;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-surface: #f1f5f9;
+            --border-color: #cbd5e1;
+            --border-light: #e2e8f0;
+            --color-success: #16a34a;
+            --color-error: #dc2626;
+            --color-heading: #384f5c;
+            --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --sidebar-width: 260px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+
+        :focus-visible {
+            outline: 3px solid var(--accent-secondary);
+            outline-offset: 2px;
+        }
+
+        /* ============================================
+           SKIP LINK
+           ============================================ */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent-primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 200;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; }
+
+        .visually-hidden {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .site-header {
+            background: var(--bg-card);
+            border-bottom: 3px solid var(--accent-secondary);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        }
+
+        .site-header h1 {
+            color: var(--color-heading);
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .site-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           MISE EN PAGE PRINCIPALE (sidebar + contenu)
+           ============================================ */
+        .page-layout {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            align-items: flex-start;
+        }
+
+        /* ============================================
+           SIDEBAR (colonne filtres à gauche)
+           ============================================ */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-light);
+            padding: var(--spacing-lg) var(--spacing-md);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .filter-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .filter-group-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-heading);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .filter-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.4rem 0.75rem;
+            border: none;
+            background: transparent;
+            font-family: var(--font-stack);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: background 0.15s, color 0.15s;
+            line-height: 1.4;
+            margin-bottom: 2px;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-surface);
+            color: var(--text-main);
+        }
+
+        .filter-btn.active {
+            background: #dbeafe;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .filter-btn.active-orange {
+            background: #fff7ed;
+            color: #c2760a;
+            font-weight: 600;
+        }
+
+        .filter-count {
+            float: right;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: var(--bg-surface);
+            padding: 0 6px;
+            border-radius: 9999px;
+            margin-top: 1px;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            font-family: var(--font-stack);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: background 0.15s;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+        .reset-btn:hover {
+            background: #dbeafe;
+        }
+
+        /* ============================================
+           ZONE PRINCIPALE (tuiles)
+           ============================================ */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: var(--spacing-lg);
+        }
+
+        .results-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .results-count {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .results-count strong {
+            color: var(--text-main);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .search-input {
+            padding: 0.4rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-stack);
+            font-size: 0.875rem;
+            color: var(--text-main);
+            background: white;
+            width: 220px;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0,105,191,0.15);
+        }
+
+        /* ============================================
+           GRILLE 4 COLONNES
+           ============================================ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        /* ============================================
+           CARTE ACTIVITÉ
+           ============================================ */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            padding: 1.1rem 1.1rem 0.9rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .card-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+        }
+
+        .card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            margin-bottom: 0.4rem;
+            line-height: 1.35;
+        }
+
+        .card h3 a {
+            color: var(--color-heading);
+            text-decoration: none;
+        }
+
+        .card h3 a:hover {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .card-resume {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            flex-grow: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            white-space: nowrap;
+            line-height: 1.5;
+        }
+
+        .badge-discipline-math {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-discipline-st {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-discipline-mst {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-niveau {
+            background: var(--bg-surface);
+            color: var(--text-muted);
+        }
+
+        .badge-univers {
+            background: #f3e8ff;
+            color: #6b21a8;
+            font-weight: 600;
+            font-size: 0.65rem;
+        }
+
+        /* Message vide */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .site-footer {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1280px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sidebar {
+                width: 220px;
+                min-width: 220px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .site-header {
+                padding: var(--spacing-md);
+            }
+            .site-header h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+<div id="sr-announcer" role="status" aria-live="polite" class="visually-hidden"></div>
+
+<header class="site-header" role="banner"><img src="https://recitmst.qc.ca/IMG/png/recitmst-noir.png" alt="Logo RÉCIT MST" style="float:right;">
+    <h1>Exemples de pages Web interactives produites par l'IAG</h1>
+	
+<p>
+    <a href="https://recitmst.qc.ca/intentions-page-web-mst.html" target="_blank" 
+       class="btn btn-primary" 
+       style="display:inline-flex; align-items:center; padding:5px 17px; background-color:#0069bf; color:white; font-weight:600; border-radius:8px; text-decoration:none; font-size:1rem; margin:4px 4px 4px 0; transition:background-color 0.2s;">
+        Intentions pour créer des pages Web
+    </a>
+    <a href="https://recitmst.qc.ca/requetes-mst.html" target="_blank" 
+       class="btn btn-primary" 
+       style="display:inline-flex; align-items:center; padding:5px 17px; background-color:#0069bf; color:white; font-weight:600; border-radius:8px; text-decoration:none; font-size:1rem; margin:4px 4px 4px 0; transition:background-color 0.2s;">
+        Requêtes MST de base
+    </a>
+    <a href="https://recitmst.qc.ca/partager-page-web-tutoriel.html" target="_blank" 
+       class="btn btn-primary" 
+       style="display:inline-flex; align-items:center; padding:5px 17px; background-color:#0069bf; color:white; font-weight:600; border-radius:8px; text-decoration:none; font-ssize:1rem; margin:4px 4px 4px 0; transition:background-color 0.2s;">
+        Des tutoriels pour partager des pages Web
+    </a>
+</p>
+
+
+
+
+</header>
+
+<div class="page-layout">
+
+    <!-- ===== SIDEBAR FILTRES ===== -->
+    <aside class="sidebar" role="complementary" aria-label="Filtres">
+        <div class="sidebar-title">Filtres</div>
+
+        <button class="reset-btn" id="btn-reset" aria-label="Réinitialiser tous les filtres">Tout afficher</button>
+
+        <div class="filter-group">
+            <div class="filter-group-title" id="label-discipline">Discipline</div>
+            <div role="group" aria-labelledby="label-discipline">
+                <button class="filter-btn" data-filter="discipline" data-value="Mathématique" aria-pressed="false">
+                    Mathématique <span class="filter-count" aria-hidden="true"></span>
+                </button>
+                <button class="filter-btn" data-filter="discipline" data-value="Science et technologie" aria-pressed="false">
+                    Science et technologie <span class="filter-count" aria-hidden="true"></span>
+                </button>
+                <button class="filter-btn" data-filter="discipline" data-value="MST" aria-pressed="false">
+                    MST <span class="filter-count" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <div class="filter-group-title" id="label-niveau">Niveau scolaire</div>
+            <div role="group" aria-labelledby="label-niveau">
+                <button class="filter-btn" data-filter="niveau" data-value="Primaire" aria-pressed="false">
+                    Primaire <span class="filter-count" aria-hidden="true"></span>
+                </button>
+                <button class="filter-btn" data-filter="niveau" data-value="Secondaire" aria-pressed="false">
+                    Secondaire <span class="filter-count" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <div class="filter-group-title" id="label-type">Type d'activité</div>
+            <div role="group" aria-labelledby="label-type" id="type-filters">
+                <!-- Généré dynamiquement -->
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- ===== CONTENU PRINCIPAL ===== -->
+    <main id="main-content" class="main-content" role="main">
+
+        <div class="results-bar">
+            <p class="results-count" aria-live="polite">
+                <strong id="count-display">41</strong> activité(s)
+            </p>
+            <div class="search-box">
+                <label for="search-input" class="visually-hidden">Rechercher une activité</label>
+                <input type="search" id="search-input" class="search-input"
+                       placeholder="Rechercher…" autocomplete="off" aria-label="Rechercher une activité">
+            </div>
+        </div>
+
+        <div class="cards-grid" id="cards-container" aria-label="Liste des activités">
+            <!-- Tuiles générées par JavaScript -->
+        </div>
+
+    </main>
+
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <p><a href="https://docs.google.com/document/d/1gJr3QGRnRKmFOFBzWeF7chvOBumnugnSagOj1mlhy3Y/edit?usp=sharing" target="_blank">Ingénierie</a> RÉCIT MST (<a href="mailto:mst@recit.gouv.qc.ca">mst@recit.gouv.qc.ca</a>) | Programmation par une IAG avec <a href="https://drive.google.com/file/d/1dTVZGoRG6YVKinoENRLTWRhY4FVWxdPG/view?usp=sharing"  target="_blank">ces instructions de sécurité</a> | <a href="https://recitmst.qc.ca/trousse-ia" target="_blank">Trousse IA en MST</a></p>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    /* ============================================
+       DONNÉES
+       ============================================ */
+    const ACTIVITIES = [{"titre":"Activité proportionnalités — pré-activité Scratch","url":"https://recitmst.qc.ca/exemple/exercices-proportionnalites-pre-scratch.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Arithmétique — proportionnalité","resume":"Exercices de proportionnalité servant de préparation à un projet de facturation en Scratch.","type":"Activité interactive"},{"titre":"Analyse de données par Copilot","url":"https://recitmst.qc.ca/exemple/analyse-donnees-copilot.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel / Statistique","resume":"Activité d'analyse de données scientifiques avec l'assistance de Copilot (IA), permettant de croiser données et interprétations.","type":"Analyse de données"},{"titre":"Anatomie et fonctions d'une plante (PDF)","url":"https://recitmst.qc.ca/IMG/pdf/anatomie-plante.pdf","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers vivant — botanique","resume":"Document PDF illustrant l'anatomie d'une plante et les fonctions de chaque organe, produit avec l'aide de Gemini (IA).","type":"Document"},{"titre":"Banc d'optique et expérience","url":"https://recitmst.qc.ca/exemple/banc-optique-lentilles.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers technologique — optique","resume":"Simulation d'un banc d'optique permettant d'expérimenter avec des lentilles convergentes et divergentes pour former des images.","type":"Simulation interactive"},{"titre":"Bielle-manivelle animation","url":"https://recitmst.qc.ca/exemple/bielle-manivelle-animation.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers technologique — mécanismes","resume":"Animation illustrant le fonctionnement d'un mécanisme bielle-manivelle, transformant un mouvement de rotation en translation.","type":"Animation"},{"titre":"Bolide, ballon hélium et pendule","url":"https://recitmst.qc.ca/exemple/bolide-pendule-ballon-helium.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — forces et mouvements","resume":"Simulations comparées du mouvement d'un bolide, d'un pendule et d'un ballon à l'hélium pour explorer les forces et trajectoires.","type":"Simulation interactive"},{"titre":"Cartes mémoires — espèces","url":"https://recitmst.qc.ca/exemple/cartes-memoires-bio-cycle1.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers vivant — diversité des espèces","resume":"Cartes mémoires interactives sur la classification et les caractéristiques des espèces vivantes pour le cycle 1 du secondaire.","type":"Cartes mémoires"},{"titre":"Casse-tête de nombres","url":"https://recitmst.qc.ca/exemple/casse-tete-nombres.html","discipline":"Mathématique","niveau":"Primaire","univers":"Arithmétique — sens du nombre","resume":"Casse-tête ludique autour de la manipulation de nombres, favorisant le sens du nombre et le raisonnement arithmétique.","type":"Jeu"},{"titre":"DCT — cartes mémoires atome, 4e secondaire","url":"https://recitmst.qc.ca/exemple/defier-ia-dct-cartes-memoires-atome-sec4-se.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — structure de l'atome","resume":"Activité de cartes mémoires sur la structure atomique destinée aux élèves de 4e secondaire (séquence SE), avec évaluation par l'IA.","type":"Défier l'IA"},{"titre":"DCT — Simulation banc d'optique (cahier de traces)","url":"https://recitmst.qc.ca/IMG/docx/banc-optique-cahier-traces.docx","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers technologique — optique","resume":"Cahier de traces au format DOCX accompagnant la simulation du banc d'optique, pour consigner les observations et démarches expérimentales.","type":"Cahier de traces"},{"titre":"Défier l'IA — algèbre cycle 2","url":"https://recitmst.qc.ca/exemple/defier-ia-algebre-cycle2.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Algèbre","resume":"L'élève soumet des expressions algébriques à une IA et analyse la qualité des réponses obtenues pour développer son sens critique.","type":"Défier l'IA"},{"titre":"Défier l'IA — analyse de données (MST)","url":"https://recitmst.qc.ca/exemple/defier-ia-analyse-donnees-ia-cycle2-demo.html","discipline":"MST","niveau":"Secondaire","univers":"Statistique / Univers matériel","resume":"L'élève confronte une IA à une tâche d'analyse de données en MST et évalue la pertinence et l'exactitude des réponses.","type":"Défier l'IA"},{"titre":"Défier l'IA — analyse de sources ST cycle 2","url":"https://recitmst.qc.ca/exemple/defier-ia-analyse-sources-st-cycle2.html","discipline":"MST","niveau":"Secondaire","univers":"Tous les univers — lecture critique","resume":"L'élève analyse des sources d'information scientifiques présentées par une IA et évalue leur fiabilité et leur pertinence.","type":"Défier l'IA"},{"titre":"Défier l'IA — analyse de sources statistiques sec. cycle 2","url":"https://recitmst.qc.ca/exemple/defier-ia-analyse-sources-math-cycle2.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Statistique — analyse de données","resume":"L'élève analyse des sources statistiques avec l'aide d'une IA et développe son jugement critique face aux données présentées.","type":"Défier l'IA"},{"titre":"Défier l'IA — cartes mémoires math cycle 1","url":"https://recitmst.qc.ca/exemple/defier-ia-cartesmemoires-math-cycle1-demo.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Arithmétique / Géométrie","resume":"Activité de cartes mémoires générées par une IA que l'élève doit valider et corriger, développant son regard critique.","type":"Défier l'IA"},{"titre":"Défier l'IA — états de la matière, ST cycle 1","url":"https://recitmst.qc.ca/exemple/defier-ia-etats-matiere-cycle1-demo.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — états de la matière","resume":"L'élève soumet des questions sur les états de la matière à une IA et valide les réponses obtenues en les comparant à ses connaissances.","type":"Défier l'IA"},{"titre":"Défier l'IA — quiz révision taux sec. 2","url":"https://recitmst.qc.ca/exemple/defier-ia-quiz-revision-taux-sec2.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Arithmétique — taux et proportionnalité","resume":"Quiz de révision sur les taux généré par une IA ; l'élève identifie les erreurs ou imprécisions dans les questions et réponses.","type":"Défier l'IA"},{"titre":"Défis mathématiques géométrie","url":"https://recitmst.qc.ca/exemple/defis-math-sec1-geometrie.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Géométrie","resume":"Série de 10 défis progressifs en géométrie pour le premier cycle du secondaire, favorisant la réflexion et la résolution de problèmes.","type":"10 défis"},{"titre":"Défis mathématiques nombre","url":"https://recitmst.qc.ca/exemple/defis-math-sec1-nombres.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Arithmétique — sens du nombre","resume":"Série de 10 défis progressifs autour du sens du nombre pour le premier cycle du secondaire.","type":"10 défis"},{"titre":"Défis physique mécanique","url":"https://recitmst.qc.ca/exemple/defis-physique-mecanique.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — forces et mouvements","resume":"Série de 10 défis en physique mécanique portant sur les forces, les mouvements et les machines simples.","type":"10 défis"},{"titre":"Défis ST matériel cycle 1","url":"https://recitmst.qc.ca/exemple/defis-st-materiel-cycle1.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — propriétés des matériaux","resume":"Série de 10 défis sur l'univers matériel adaptés au premier cycle du secondaire, portant sur les propriétés des matériaux.","type":"10 défis"},{"titre":"Défis ST vivant cycle 1","url":"https://recitmst.qc.ca/exemple/defis-st-vivant-cycle1.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers vivant — êtres vivants","resume":"Série de 10 défis sur l'univers vivant pour le premier cycle du secondaire, axés sur les êtres vivants et leurs caractéristiques.","type":"10 défis"},{"titre":"Exemples Open Middle","url":"https://recitmst.qc.ca/exemple/open-middle-exemple.html","discipline":"Mathématique","niveau":"Primaire","univers":"Arithmétique — raisonnement","resume":"Exemples de tâches « Open Middle » : problèmes à entrée et sortie fermées mais démarche ouverte, favorisant le raisonnement.","type":"Activité interactive"},{"titre":"Image enrichie d'une plante","url":"https://recitmst.qc.ca/exemple/jeu-plante.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers vivant — botanique","resume":"Image interactive enrichie présentant les parties d'une plante avec des zones cliquables pour explorer l'anatomie végétale.","type":"Image enrichie"},{"titre":"Jeu d'évasion — système digestif","url":"https://recitmst.qc.ca/exemple/jeu-digestif.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers vivant — système digestif","resume":"Jeu d'évasion numérique où l'élève doit résoudre des énigmes sur le système digestif pour progresser.","type":"Jeu"},{"titre":"Jeu figures primaire 1","url":"https://recitmst.qc.ca/exemple/jeu-figures-primaire1.html","discipline":"Mathématique","niveau":"Primaire","univers":"Géométrie — figures planes","resume":"Jeu de reconnaissance et de classification de figures géométriques pour les élèves du premier cycle du primaire.","type":"Jeu"},{"titre":"Jeu Lewis","url":"https://recitmst.qc.ca/exemple/jeu-lewis.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — chimie, structure atomique","resume":"Jeu de construction de structures de Lewis pour représenter les liaisons chimiques entre les atomes.","type":"Jeu"},{"titre":"Jeu parenthèses","url":"https://recitmst.qc.ca/exemple/jeu-parentheses.html","discipline":"Mathématique","niveau":"Primaire","univers":"Arithmétique — priorité des opérations","resume":"Jeu pour pratiquer le placement des parenthèses dans des expressions arithmétiques afin d'obtenir un résultat cible.","type":"Jeu"},{"titre":"Levier","url":"https://recitmst.qc.ca/exemple/levier-simple.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — forces et mouvements","resume":"Simulation d'un levier simple permettant d'explorer l'équilibre des forces, les bras de levier et la mécanique simple.","type":"Simulation interactive"},{"titre":"Manipuler une droite","url":"https://recitmst.qc.ca/exemple/droite-manipuler-pda-tache.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Algèbre — fonctions et droites","resume":"Activité interactive permettant de manipuler une droite dans un plan cartésien et d'explorer ses propriétés (pente, ordonnée à l'origine).","type":"Simulation interactive"},{"titre":"Microbit et courbes mathématique","url":"https://recitmst.qc.ca/exemple/microbit_courbes.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Algèbre — fonctions et courbes","resume":"Exploration des courbes mathématiques à l'aide d'un Microbit ; lien entre la programmation physique et les représentations graphiques.","type":"Inspiration"},{"titre":"Naturel ou fabriqué — primaire 1er cycle","url":"https://recitmst.qc.ca/IMG/html/naturel-fabrique-primaire1-st.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — objets naturels et fabriqués","resume":"Activité de tri et de classification d'objets en deux catégories : naturels ou fabriqués, destinée aux élèves du premier cycle du primaire.","type":"Activité interactive"},{"titre":"Plan incliné et bolide","url":"https://recitmst.qc.ca/exemple/plan-incline-donnees.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — forces et mouvements","resume":"Collecte et analyse de données sur le mouvement d'un bolide sur un plan incliné, en lien avec les forces et la cinématique.","type":"Simulation interactive"},{"titre":"Simulation conductibilité thermique","url":"https://recitmst.qc.ca/exemple/sim-cond-thermique-jeu.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Univers matériel — énergie et chaleur","resume":"Simulation interactive de la conductibilité thermique permettant d'explorer comment la chaleur se propage dans différents matériaux.","type":"Simulation interactive"},{"titre":"Transformations géométriques, cycle 1","url":"https://recitmst.qc.ca/exemple/types-transformations-cycle1.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Géométrie — transformations","resume":"Présentation interactive des types de transformations géométriques adaptée au premier cycle du secondaire.","type":"Activité interactive"},{"titre":"Transformations mathématique 2D","url":"https://recitmst.qc.ca/exemple/transformateur-mathematique-2d.html","discipline":"Mathématique","niveau":"Secondaire","univers":"Géométrie — transformations","resume":"Outil de visualisation des transformations géométriques dans le plan (translation, rotation, réflexion, homothétie).","type":"Simulation interactive"},{"titre":"Diagramme circulaire","url":"https://sites.google.com/recit.gouv.qc.ca/test-ia/applications/diagramme-circulaire","discipline":"Mathématique","niveau":"Primaire","univers":"Statistiques","resume":"Création d'un diagramme circulaire de façon simple.","type":"Activité interactive"},{"titre":"J'apprends à mesurer","url":"https://sites.google.com/recit.gouv.qc.ca/test-ia/applications/japprends-à-mesurer","discipline":"Mathématique","niveau":"Primaire","univers":"Arithmétique — sens du nombre","resume":"Activité interactive qui exerce l'élève à mesurer.","type":"Activité interactive"},{"titre":"Exemples multiples","url":"https://sites.google.com/recit.gouv.qc.ca/exemplesiahtml/science-et-technologie","discipline":"Science et technologie","niveau":"Secondaire","univers":"Divers","resume":"Tableau périodique, Agitation de particules, Engrenages, Questionnaires gaz, Carte Hydro-Québec interactive.","type":"Site"},{"titre":"Exemples multiples","url":"https://sites.google.com/recit.gouv.qc.ca/exemplesiahtml/mathématiques","discipline":"Mathématique","niveau":"Primaire","univers":"Divers","resume":"Simulateur de lancers de deux dés, Frises en dallages, Fractions, Guess Who géométrie.","type":"Activité interactive"},{"titre":"Exemples multiples","url":"https://sites.google.com/recit.gouv.qc.ca/exemplesiahtml/adaptation-scolaire","discipline":"Mathématique","niveau":"Primaire","univers":"Divers","resume":"Activités interactives pour l'adaptation scolaire.","type":"Site"},{"titre":"Microbit et les démarches en science et technologie","url":"https://recitmst.qc.ca/exemple/microbit-ia-demarches-st.html","discipline":"Science et technologie","niveau":"Secondaire","univers":"Démarches","resume":"Exploration des démarches scientifiques et technologiques à l'aide d'un Microbit, avec l'IA comme outil d'inspiration et de validation.","type":"Inspiration"},{"titre":"Exemple webinaire H5P — vidéo interactive","url":"https://recitmst.qc.ca/exemple/webinare-h5p.html","discipline":"MST","niveau":"Secondaire","univers":"Inspiration","resume":"Démonstration d'une vidéo interactive de type H5P intégrant des questions à choix multiples apparaissant à des moments précis.","type":"Vidéo"},{"titre":"Qui est-ce ? Édition Minéraux (Guess-who)","url":"https://sites.google.com/csnavigateurs.qc.ca/patriceboutin/sec-2/guess-who","discipline":"Science et technologie","niveau":"2e Secondaire","univers":"Matériel","resume":"Jeu réalisé par Patrice Boutin, CSSDN.","type":"Jeu"},{"titre":"Qui est-ce v2? Édition Minéraux (Guess-who)","url":"https://sites.google.com/csnavigateurs.qc.ca/patriceboutin/sec-2/niveau2","discipline":"Science et technologie","niveau":"2e Secondaire","univers":"Matériel","resume":"Jeu réalisé par Patrice Boutin, CSSDN.","type":"Jeu"},{"titre":"Défier l'IA - Anlayse de données","url":"https://recitmst.qc.ca/exemple/defier-ia-analyse-donnees.html","discipline":"Science et technologie","niveau":"2e cycle du secondaire","univers":"Expérimentation","resume":"Vivre une activité guidée pour analyser des données d'une expérimentaiton.","type":"Analyse de données"},{"titre":"Classe de madame Lauralie","url":"https://sites.google.com/cspaysbleuets.qc.ca/classedemadamelauralie102/accueil","discipline":"Diverses","niveau":"Primaire","univers":"Divers","resume":"Plusieurs exemples multidisciplinaires","type":"Site"},{"titre":"Fonction globale - analyse technologique","url":"https://sites.google.com/cssenergie.gouv.qc.ca/fonction-globale/accueil","discipline":"Science et technologie","niveau":"Primaire","univers":"Divers","resume":"Outil pour pratiquer le concept de fonction globale.","type":"Activité interactive"}];
+
+    /* ============================================
+       ÉTAT DES FILTRES
+       ============================================ */
+    const state = {
+        discipline: null,
+        niveau: null,
+        type: null,
+        search: ''
+    };
+
+    /* ============================================
+       UTILITAIRES
+       ============================================ */
+    function escapeHTML(str) {
+        const map = { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' };
+        return String(str).replace(/[&<>"']/g, c => map[c]);
+    }
+
+    function announceToSR(msg) {
+        const el = document.getElementById('sr-announcer');
+        if (!el) return;
+        el.textContent = '';
+        requestAnimationFrame(() => { el.textContent = msg; });
+    }
+
+    /* ============================================
+       COULEURS DE BADGE DISCIPLINE
+       ============================================ */
+    function disciplineClass(d) {
+        if (d === 'Mathématique') return 'badge-discipline-math';
+        if (d === 'Science et technologie') return 'badge-discipline-st';
+        return 'badge-discipline-mst';
+    }
+
+    /* ============================================
+       RENDU DES CARTES
+       ============================================ */
+    function renderCards() {
+        const q = state.search.trim().toLowerCase();
+        const container = document.getElementById('cards-container');
+
+        const filtered = ACTIVITIES.filter(a => {
+            if (state.discipline && a.discipline !== state.discipline) return false;
+            if (state.niveau && a.niveau !== state.niveau) return false;
+            if (state.type && a.type !== state.type) return false;
+            if (q) {
+                const hay = (a.titre + ' ' + a.resume + ' ' + a.univers).toLowerCase();
+                if (!hay.includes(q)) return false;
+            }
+            return true;
+        });
+
+        document.getElementById('count-display').textContent = filtered.length;
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="empty-state"><p>Aucune activité ne correspond à ces critères.</p></div>';
+            announceToSR('Aucune activité ne correspond à ces critères.');
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        filtered.forEach(a => {
+            const article = document.createElement('article');
+            article.className = 'card';
+
+            const typeEl = document.createElement('div');
+            typeEl.className = 'card-type';
+            typeEl.textContent = a.type || '';
+
+            const h3 = document.createElement('h3');
+            const link = document.createElement('a');
+            link.href = a.url || '#';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = a.titre ? a.titre.trim() : '';
+            h3.appendChild(link);
+
+            const resume = document.createElement('p');
+            resume.className = 'card-resume';
+            resume.textContent = a.resume || '';
+
+            const meta = document.createElement('div');
+            meta.className = 'card-meta';
+
+            if (a.discipline) {
+                const bd = document.createElement('span');
+                bd.className = 'badge ' + disciplineClass(a.discipline);
+                bd.textContent = a.discipline;
+                meta.appendChild(bd);
+            }
+
+            if (a.niveau) {
+                const bn = document.createElement('span');
+                bn.className = 'badge badge-niveau';
+                bn.textContent = a.niveau;
+                meta.appendChild(bn);
+            }
+
+            if (a.univers) {
+                const bu = document.createElement('span');
+                bu.className = 'badge badge-univers';
+                bu.textContent = a.univers;
+                meta.appendChild(bu);
+            }
+
+            article.appendChild(typeEl);
+            article.appendChild(h3);
+            article.appendChild(resume);
+            article.appendChild(meta);
+            fragment.appendChild(article);
+        });
+
+        container.innerHTML = '';
+        container.appendChild(fragment);
+
+        announceToSR(filtered.length + ' activité(s) affichée(s).');
+    }
+
+    /* ============================================
+       COMPTAGE DES FILTRES
+       ============================================ */
+    function updateFilterCounts() {
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            const field = btn.dataset.filter;
+            const val = btn.dataset.value;
+            const count = ACTIVITIES.filter(a => a[field] === val).length;
+            const span = btn.querySelector('.filter-count');
+            if (span) span.textContent = count;
+        });
+    }
+
+    /* ============================================
+       CONSTRUCTION DES FILTRES DE TYPE
+       ============================================ */
+    function buildTypeFilters() {
+        const types = [...new Set(ACTIVITIES.map(a => a.type).filter(Boolean))].sort();
+        const container = document.getElementById('type-filters');
+        const fragment = document.createDocumentFragment();
+        types.forEach(t => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn';
+            btn.dataset.filter = 'type';
+            btn.dataset.value = t;
+            btn.setAttribute('aria-pressed', 'false');
+            const text = document.createTextNode(t + ' ');
+            const span = document.createElement('span');
+            span.className = 'filter-count';
+            span.setAttribute('aria-hidden', 'true');
+            btn.appendChild(text);
+            btn.appendChild(span);
+            fragment.appendChild(btn);
+        });
+        container.appendChild(fragment);
+    }
+
+    /* ============================================
+       MISE À JOUR DE L'ÉTAT VISUEL DES BOUTONS
+       ============================================ */
+    function updateButtonStates() {
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            const field = btn.dataset.filter;
+            const val = btn.dataset.value;
+            const isActive = state[field] === val;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
+
+    /* ============================================
+       GESTION DES CLICS SUR LES FILTRES
+       ============================================ */
+    function handleFilterClick(e) {
+        const btn = e.target.closest('[data-filter]');
+        if (!btn) return;
+        const field = btn.dataset.filter;
+        const val = btn.dataset.value;
+        // Bascule : cliquer à nouveau désactive
+        state[field] = (state[field] === val) ? null : val;
+        updateButtonStates();
+        renderCards();
+    }
+
+    /* ============================================
+       INITIALISATION
+       ============================================ */
+    document.addEventListener('DOMContentLoaded', function() {
+
+        buildTypeFilters();
+        updateFilterCounts();
+        renderCards();
+
+        // Délégation sur toute la sidebar
+        document.querySelector('.sidebar').addEventListener('click', handleFilterClick);
+
+        // Bouton réinitialiser
+        document.getElementById('btn-reset').addEventListener('click', function() {
+            state.discipline = null;
+            state.niveau = null;
+            state.type = null;
+            state.search = '';
+            document.getElementById('search-input').value = '';
+            updateButtonStates();
+            renderCards();
+        });
+
+        // Recherche avec debounce
+        let searchTimeout;
+        document.getElementById('search-input').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const val = this.value;
+            searchTimeout = setTimeout(function() {
+                state.search = val;
+                renderCards();
+            }, 250);
+        });
+
+    });
+
+})();
+</script>
+</body>
+</html>
