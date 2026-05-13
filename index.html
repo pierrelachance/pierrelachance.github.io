@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trousse de formation continue sur l'intelligence artificielle — RÉCIT MST. Coffre à outils pédagogiques et didactiques pour les enseignants de mathématique, science et technologie.">
+<!-- CSP gérée par le serveur via .htaccess -->
+    <title>Trousse IA en MST — RÉCIT MST</title>
+    <link rel="shortcut icon" href="https://recitmst.qc.ca/favicon.ico" />
+    <style>
+        :root {
+            --accent-primary: #0069bf;
+            --accent-secondary: #faa22a;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --text-light: #64748b;
+            --bg-page: #f0f4f8;
+            --bg-card: #ffffff;
+            --border-color: #cbd5e1;
+            --border-light: #e2e8f0;
+            --color-heading: #1e3a5f;
+            --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+            --radius-xl: 10px;
+
+            /* Couleurs des onglets */
+            --tab1-color: #0069bf;
+            --tab1-light: #ddeeff;
+            --tab1-dark: #004e8f;
+            --tab1-mid: #cce0f5;
+            --tab2-color: #16a34a;
+            --tab2-light: #dcfce7;
+            --tab2-dark: #0e7a32;
+            --tab2-mid: #bbf7d0;
+            --tab3-color: #d97706;
+            --tab3-light: #fef3c7;
+            --tab3-dark: #b45309;
+            --tab3-mid: #fde68a;
+            --tab4-color: #7c3aed;
+            --tab4-light: #ede9fe;
+            --tab4-dark: #5b21b6;
+            --tab4-mid: #ddd6fe;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 1rem;
+            min-height: 100vh;
+        }
+#main-content {
+    padding-bottom: 48px;
+}
+        .page-wrapper { width: 100%; max-width: 100%; }
+
+        /* ── SKIP LINK ─────────────────────────────── */
+        .skip-link {
+            position: absolute; top: -40px; left: 0;
+            background: var(--accent-primary); color: white;
+            padding: 8px 16px; z-index: 200;
+            transition: top 0.2s; border-radius: 0 0 var(--radius-md) 0;
+            font-size: 0.875rem;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* ── EN-TÊTE ────────────────────────────────── */
+        .page-header {
+            background: linear-gradient(135deg, #003d7a 0%, #0069bf 55%, #0083e8 100%);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            right: -60px; top: -60px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            pointer-events: none;
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            right: 80px; bottom: -80px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(250,162,42,0.15);
+            pointer-events: none;
+        }
+
+        .header-logo {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .header-logo img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+        }
+
+        .page-header-text { flex: 1; }
+
+        .page-header-text h1 {
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            color: white;
+            margin-bottom: 0.2rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .page-header-text .header-sub {
+            font-size: 0.9rem;
+            opacity: 0.82;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .header-badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .header-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* ── NAVIGATION ONGLETS ─────────────────────── */
+        .tab-nav {
+            display: flex;
+            width: 100%;
+            background-color: var(--bg-card);
+            border-bottom: 3px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.85rem 0.5rem 0.7rem;
+            font-size: clamp(0.72rem, 1.5vw, 0.875rem);
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-bottom: 4px solid transparent;
+            margin-bottom: -3px;
+            transition: background-color 0.18s, border-color 0.18s, color 0.18s;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tab-btn:hover { background-color: var(--bg-page); }
+
+        .tab-icon-wrap {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--border-light);
+            transition: background-color 0.18s;
+        }
+
+        .tab-btn[data-tab="1"] .tab-icon-wrap { background: var(--tab1-mid); }
+        .tab-btn[data-tab="2"] .tab-icon-wrap { background: var(--tab2-mid); }
+        .tab-btn[data-tab="3"] .tab-icon-wrap { background: var(--tab3-mid); }
+        .tab-btn[data-tab="4"] .tab-icon-wrap { background: var(--tab4-mid); }
+
+        .tab-btn[data-tab="1"].active { border-bottom-color: var(--tab1-color); color: var(--tab1-dark); background-color: var(--tab1-light); }
+        .tab-btn[data-tab="2"].active { border-bottom-color: var(--tab2-color); color: var(--tab2-dark); background-color: var(--tab2-light); }
+        .tab-btn[data-tab="3"].active { border-bottom-color: var(--tab3-color); color: var(--tab3-dark); background-color: var(--tab3-light); }
+        .tab-btn[data-tab="4"].active { border-bottom-color: var(--tab4-color); color: var(--tab4-dark); background-color: var(--tab4-light); }
+
+        .tab-btn[data-tab="1"].active .tab-icon-wrap { background: var(--tab1-color); }
+        .tab-btn[data-tab="2"].active .tab-icon-wrap { background: var(--tab2-color); }
+        .tab-btn[data-tab="3"].active .tab-icon-wrap { background: var(--tab3-color); }
+        .tab-btn[data-tab="4"].active .tab-icon-wrap { background: var(--tab4-color); }
+
+        .tab-btn.active .tab-icon-wrap svg { color: white; }
+
+        .tab-label { display: block; }
+
+        /* ── PANNEAUX ───────────────────────────────── */
+        .tab-panel {
+            display: none;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            background-color: var(--bg-page);
+            min-height: 400px;
+        }
+
+        .tab-panel.active { display: block; }
+
+        /* ── EN-TÊTE DE PANNEAU ─────────────────────── */
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-1 .panel-header { background: linear-gradient(120deg, var(--tab1-dark) 0%, var(--tab1-color) 100%); color: white; }
+        .panel-2 .panel-header { background: linear-gradient(120deg, var(--tab2-dark) 0%, var(--tab2-color) 100%); color: white; }
+        .panel-3 .panel-header { background: linear-gradient(120deg, var(--tab3-dark) 0%, var(--tab3-color) 100%); color: white; }
+        .panel-4 .panel-header { background: linear-gradient(120deg, var(--tab4-dark) 0%, var(--tab4-color) 100%); color: white; }
+
+        .panel-header-icon {
+            width: 52px; height: 52px;
+            border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .panel-header-icon svg { color: white; }
+
+        .panel-header-body { flex: 1; }
+
+        .panel-header-body h2 {
+            font-size: 1.4rem;
+            margin: 0 0 0.2rem;
+            color: white;
+            font-weight: 800;
+        }
+
+        .panel-header-body p {
+            margin: 0;
+            font-size: 0.88rem;
+            opacity: 0.88;
+            color: white;
+            max-width: 90%;
+            line-height: 1.5;
+        }
+
+        .panel-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(255,255,255,0.25);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 0.4rem;
+        }
+
+        /* ── GRILLE DE CARTES ───────────────────────── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        /* ── CARTES ─────────────────────────────────── */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.9rem 1.1rem 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .panel-1 .card-header { background: var(--tab1-light); }
+        .panel-2 .card-header { background: var(--tab2-light); }
+        .panel-3 .card-header { background: var(--tab3-light); }
+        .panel-4 .card-header { background: var(--tab4-light); }
+
+        .card-icon {
+            width: 36px; height: 36px;
+            border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .panel-1 .card-icon { background: var(--tab1-color); }
+        .panel-2 .card-icon { background: var(--tab2-color); }
+        .panel-3 .card-icon { background: var(--tab3-color); }
+        .panel-4 .card-icon { background: var(--tab4-color); }
+
+        .card-icon svg { color: white; }
+
+        .card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .panel-1 .card h3 { color: var(--tab1-dark); }
+        .panel-2 .card h3 { color: var(--tab2-dark); }
+        .panel-3 .card h3 { color: var(--tab3-dark); }
+        .panel-4 .card h3 { color: var(--tab4-dark); }
+
+        .card-body {
+            padding: 0.9rem 1.1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* ── RESSOURCE-ITEM (lien + description) ─────── */
+        .resource-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .resource-item:last-child { border-bottom: none; }
+
+        .resource-link {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-decoration: none;
+            line-height: 1.35;
+        }
+
+        .resource-link:hover { text-decoration: underline; }
+
+        .resource-link::before {
+            content: '';
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            margin-top: 0.35em;
+            flex-shrink: 0;
+        }
+
+        .panel-1 .resource-link::before { background: var(--tab1-color); }
+        .panel-2 .resource-link::before { background: var(--tab2-color); }
+        .panel-3 .resource-link::before { background: var(--tab3-color); }
+        .panel-4 .resource-link::before { background: var(--tab4-color); }
+
+        .resource-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            padding-left: 1rem;
+        }
+
+        /* Texte informatif (sans lien) */
+        .info-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            padding: 0.3rem 0;
+        }
+
+        .info-text strong { color: var(--text-main); }
+
+        /* ── TYPE BADGE (sur les liens) ──────────────── */
+        .type-tag {
+            display: inline-block;
+            padding: 1px 7px;
+            border-radius: 4px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-right: 0.25rem;
+            vertical-align: baseline;
+        }
+
+        .tag-jeu { background: #fde68a; color: #78350f; }
+        .tag-guide { background: #bfdbfe; color: #1e3a5f; }
+        .tag-analyse { background: #d1fae5; color: #064e3b; }
+        .tag-infographie { background: #e9d5ff; color: #4c1d95; }
+        .tag-test { background: #fee2e2; color: #7f1d1d; }
+        .tag-webinaire { background: #ccfbf1; color: #134e4a; }
+        .tag-video { background: #fce7f3; color: #831843; }
+        .tag-outil { background: #e0f2fe; color: #0c4a6e; }
+
+        /* ── NOTE D'ENCADRÉ ──────────────────────────── */
+        .panel-note {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: var(--bg-card);
+            border-left: 5px solid var(--accent-secondary);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .panel-note strong { color: var(--text-main); }
+        .panel-note a { color: var(--accent-primary); }
+
+        /* ── CARTE INTRO (pleine largeur) ────────────── */
+        .card-intro {
+            grid-column: 1 / -1;
+        }
+
+        /* ── PIED DE PAGE ───────────────────────────── */
+		.site-footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			z-index: 90;
+			background: linear-gradient(135deg, #001d3a 0%, #002f5e 55%, #003d7a 100%);
+			color: rgba(255,255,255,0.82);
+			font-size: 0.82rem;
+			text-align: center;
+			padding: 0.55rem var(--spacing-xl);
+			border-top: 3px solid rgba(255,255,255,0.28);
+			box-shadow: 0 -3px 7px rgba(0,0,0,0.35);
+		}
+
+		.site-footer a,
+		.site-footer .footer-link-btn {
+			color: rgba(255,255,255,0.9);
+		}
+
+		.site-footer a:hover,
+		.site-footer .footer-link-btn:hover {
+			color: var(--accent-secondary);
+		}
+
+        /* ── ACCESSIBILITÉ ──────────────────────────── */
+        :focus-visible {
+            outline: 3px solid var(--accent-secondary);
+            outline-offset: 2px;
+        }
+
+        .visually-hidden {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
+        /* ── RESPONSIVE ─────────────────────────────── */
+        @media (max-width: 640px) {
+            .page-header { padding: var(--spacing-md); gap: var(--spacing-md); }
+            .tab-panel { padding: var(--spacing-md); }
+            .tab-btn { font-size: 0.68rem; padding: 0.6rem 0.2rem 0.5rem; }
+            .tab-icon-wrap { width: 26px; height: 26px; }
+            .tab-icon-wrap svg { width: 14px; height: 14px; }
+            .panel-header { padding: var(--spacing-md); flex-direction: column; }
+            .panel-header-body h2 { font-size: 1.15rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .header-logo { width: 52px; height: 52px; }
+            .header-logo img { width: 42px; height: 42px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+		/* ── MODALE À PROPOS ─────────────────────────── */
+		.modal-overlay {
+			display: none;
+			position: fixed;
+			inset: 0;
+			background: rgba(0,0,0,0.55);
+			z-index: 1000;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+		}
+
+		.modal-overlay.open {
+			display: flex;
+		}
+
+		.modal-box {
+			background: var(--bg-card);
+			border-radius: var(--radius-xl);
+			max-width: 1200px;
+			width: 100%;
+			max-height: 85vh;
+			overflow-y: auto;
+			box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.modal-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: var(--spacing-lg);
+			border-bottom: 1px solid var(--border-light);
+			background: linear-gradient(120deg, var(--tab1-dark) 0%, var(--tab1-color) 100%);
+			border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+			gap: var(--spacing-md);
+		}
+
+		.modal-header h2 {
+			color: white;
+			font-size: 1.15rem;
+			margin: 0;
+			border: none;
+			padding: 0;
+		}
+
+		.modal-close {
+			background: rgba(255,255,255,0.2);
+			border: none;
+			color: white;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			cursor: pointer;
+			font-size: 1.1rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			transition: background-color 0.2s;
+		}
+
+		.modal-close:hover { background: rgba(255,255,255,0.35); }
+
+		.modal-body {
+			padding: var(--spacing-lg);
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-md);
+		}
+
+		.modal-body p {
+			font-size: 0.925rem;
+			color: var(--text-muted);
+			line-height: 1.65;
+			margin: 0;
+		}
+
+		.modal-body p strong {
+			color: var(--text-main);
+		}
+
+		.modal-section {
+			padding: var(--spacing-sm) var(--spacing-md);
+			border-left: 3px solid var(--accent-primary);
+			background: var(--bg-page);
+			border-radius: 0 var(--radius-md) var(--radius-md) 0;
+		}
+
+		.modal-section p {
+			font-size: 0.875rem;
+		}
+		.footer-link-btn {
+		background: none;
+		border: none;
+		color: var(--accent-primary);
+		text-decoration: underline;
+		cursor: pointer;
+		font-size: 0.82rem;
+		font-family: var(--font-stack);
+		padding: 0;
+		}
+
+		.footer-link-btn:hover { color: var(--tab1-dark); }
+		
+		
+		/* ── LECTEUR AUDIO EN-TÊTE ──────────────────── */
+		.header-audio {
+			margin-top: 0.75rem;
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			flex-wrap: wrap;
+		}
+
+		.audio-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			padding: 5px 14px;
+			border-radius: 9999px;
+			border: 1.5px solid rgba(255,255,255,0.55);
+			background: #faa22a;
+			color: white;
+			font-size: 0.78rem;
+			font-weight: 700;
+			font-family: var(--font-stack);
+			cursor: pointer;
+			transition: background-color 0.2s;
+			letter-spacing: 0.02em;
+		}
+
+		.audio-btn:hover { background: rgba(250,162,42,0.7); }
+
+		.audio-btn svg { flex-shrink: 0; }
+
+		.audio-progress-wrap {
+			display: none;
+			align-items: center;
+			gap: 0.5rem;
+			flex: 1;
+			min-width: 180px;
+		}
+
+		.audio-progress-wrap.visible { display: flex; }
+
+		.audio-progress {
+			flex: 1;
+			height: 4px;
+			border-radius: 9999px;
+			background: rgba(255,255,255,0.25);
+			cursor: pointer;
+			appearance: none;
+			-webkit-appearance: none;
+			outline: none;
+			border: none;
+		}
+
+		.audio-progress::-webkit-slider-thumb {
+			appearance: none;
+			width: 12px; height: 12px;
+			border-radius: 50%;
+			background: white;
+			cursor: pointer;
+		}
+
+		.audio-progress::-moz-range-thumb {
+			width: 12px; height: 12px;
+			border-radius: 50%;
+			background: white;
+			cursor: pointer;
+			border: none;
+		}
+
+		.audio-time {
+			font-size: 0.72rem;
+			color: rgba(255,255,255,0.8);
+			white-space: nowrap;
+			font-variant-numeric: tabular-nums;
+		}
+		
+		.btn-lien-externe {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			margin-top: 0.6rem;
+			float: right;
+			padding: 1px 4px;
+			border-radius: 9999px;
+			border: 1.5px solid rgba(255,255,255,0.55);
+			background: rgba(255,255,255,0.18);
+			color: white;
+			font-size: 0.78rem;
+			font-weight: 700;
+			font-family: var(--font-stack);
+			cursor: pointer;
+			transition: background-color 0.2s;
+			letter-spacing: 0.02em;
+		}
+		/* ── BOUTON INFOGRAPHIE PAR PANNEAU ─────────── */
+		.btn-infographie {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			margin-top: 0.6rem;
+			float: right;
+			padding: 10px 24px;
+			border-radius: 9999px;
+			border: 1.5px solid rgba(255,255,255,0.55);
+			background: rgba(255,255,255,0.18);
+			color: white;
+			font-size: 0.78rem;
+			font-weight: 700;
+			font-family: var(--font-stack);
+			cursor: pointer;
+			transition: background-color 0.2s;
+			letter-spacing: 0.02em;
+		}
+		.btn-infographie:hover { background: rgba(255,255,255,0.35); }
+		.btn-infographie svg { flex-shrink: 0; }
+
+		/* ── MODALE INFOGRAPHIE ──────────────────────── */
+		.modal-infographie {
+			display: none;
+			position: fixed;
+			inset: 0;
+			background: rgba(0,0,0,0.72);
+			z-index: 1100;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+		}
+		.modal-infographie.open { display: flex; }
+
+		.modal-infographie-box {
+			width: 70vw;
+			height: 80vh;
+			background: var(--bg-card);
+			border-radius: var(--radius-xl);
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+		}
+
+		.modal-infographie-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: var(--spacing-md) var(--spacing-lg);
+			flex-shrink: 0;
+		}
+
+		.modal-infographie-header h2 {
+			color: white;
+			font-size: 1rem;
+			margin: 0;
+			border: none;
+			padding: 0;
+		}
+
+		.modal-infographie-close {
+			background: rgba(255,255,255,0.2);
+			border: none;
+			color: white;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			cursor: pointer;
+			font-size: 1.1rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			transition: background-color 0.2s;
+		}
+		.modal-infographie-close:hover { background: rgba(255,255,255,0.35); }
+
+		.modal-infographie-body {
+			flex: 1;
+			overflow: auto;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+			background: #f9faf5;
+		}
+
+		.modal-infographie-body img {
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+			border-radius: var(--radius-md);
+			box-shadow: 0 2px 12px rgba(0,0,0,0.38);
+		}
+
+/* Couleurs de l'en-tête selon le panneau */
+        .modal-infographie-header.couleur-1 { background: linear-gradient(120deg, var(--tab1-dark) 0%, var(--tab1-color) 100%); }
+        .modal-infographie-header.couleur-2 { background: linear-gradient(120deg, var(--tab2-dark) 0%, var(--tab2-color) 100%); }
+        .modal-infographie-header.couleur-3 { background: linear-gradient(120deg, var(--tab3-dark) 0%, var(--tab3-color) 100%); }
+        .modal-infographie-header.couleur-4 { background: linear-gradient(120deg, var(--tab4-dark) 0%, var(--tab4-color) 100%); }
+
+		/* ── MODALE VIDÉO YOUTUBE ────────────────────── */
+		.modal-video {
+			display: none;
+			position: fixed;
+			inset: 0;
+			background: rgba(0,0,0,0.82);
+			z-index: 1200;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-md);
+		}
+		.modal-video.open { display: flex; }
+
+		.modal-video-box {
+			width: min(800px, 95vw);
+			background: #1a1a1a;
+			border-radius: var(--radius-xl);
+			overflow: hidden;
+			box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.modal-video-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.75rem 1rem;
+			background: #111;
+		}
+
+		.modal-video-titre {
+			color: #f1f1f1;
+			font-size: 0.9rem;
+			font-weight: 600;
+			margin: 0;
+			font-family: var(--font-stack);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: calc(100% - 44px);
+		}
+
+		.modal-video-close {
+			background: rgba(255,255,255,0.15);
+			border: none;
+			color: white;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			cursor: pointer;
+			font-size: 1.1rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			transition: background-color 0.2s;
+		}
+		.modal-video-close:hover { background: rgba(255,255,255,0.3); }
+
+		.modal-video-ratio {
+			position: relative;
+			width: 100%;
+			padding-top: 56.25%; /* 16:9 */
+		}
+
+		.modal-video-ratio iframe {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			border: none;
+			display: block;
+		}
+    </style>
+    </style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+<div class="page-wrapper">
+
+    <!-- En-tête -->
+    <header class="page-header" role="banner">
+        <div class="page-header-text">
+		<div style="float:right; text-align:right; max-width: 380px; margin-top: -1rem;">
+		<img src="https://recitmst.qc.ca/IMG/png/recitmst-blanc.png" alt="Logo RÉCIT MST">
+		<blockquote style="margin: 0.1rem 0 0 0; font-size: 0.75rem; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.4;">
+        <p style="margin:0;">« Les réponses deviennent gratuites et omniprésentes. Par conséquent, ce sont les questions qui acquièrent de la valeur. »</p>
+        <footer style="margin-top: 0.1rem; font-style: normal; font-size: 0.7rem; color: rgba(255,255,255,0.65);">— Kevin Kelly (traduction libre) · <cite>The Inevitable</cite> (2016)</footer>
+		</blockquote>
+</div>
+
+            <h1>Trousse IA en MST</h1>
+
+            <p class="header-sub">Coffre à outils pédagogiques et didactiques — mathématique, science et technologie</p>
+            <div class="header-badge-row">
+                <span class="header-badge">Formation continue</span>
+                <span class="header-badge">Compétence numérique</span>
+				<span class="header-badge">Compétence IA</span>
+                <span class="header-badge">Primaire–Secondaire-FGA</span>
+            </div>
+			    <div class="header-audio">
+                <button class="audio-btn" id="audio-play-btn" aria-label="Écouter : La trousse IA du MST « vue » par NotebookLM">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Écouter : La trousse « vue » par NotebookLM
+                </button>
+                <div class="audio-progress-wrap" id="audio-progress-wrap">
+                    <input type="range" class="audio-progress" id="audio-progress" min="0" max="100" value="0" aria-label="Progression de la lecture audio">
+                    <span class="audio-time" id="audio-time">0:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation par onglets -->
+    <nav class="tab-nav" role="tablist" aria-label="Sections de la formation">
+
+        <button class="tab-btn active" role="tab" aria-selected="true"
+                aria-controls="panel-1" id="tab-1" data-tab="1">
+            <span class="tab-icon-wrap" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                </svg>
+            </span>
+            <span class="tab-label">Littératie IA</span>
+        </button>
+
+        <button class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="panel-2" id="tab-2" data-tab="2" tabindex="-1">
+            <span class="tab-icon-wrap" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </span>
+            <span class="tab-label">Pour l'enseignement</span>
+        </button>
+
+        <button class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="panel-3" id="tab-3" data-tab="3" tabindex="-1">
+            <span class="tab-icon-wrap" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+            </span>
+            <span class="tab-label">Pour l'apprentissage</span>
+        </button>
+
+        <button class="tab-btn" role="tab" aria-selected="false"
+                aria-controls="panel-4" id="tab-4" data-tab="4" tabindex="-1">
+            <span class="tab-icon-wrap" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+            </span>
+            <span class="tab-label">Approfondir</span>
+        </button>
+
+    </nav>
+
+    <main role="main" id="main-content">
+
+        <!-- ════════════════════════════════════════════
+             PANNEAU 1 : Littératie IA
+        ════════════════════════════════════════════ -->
+        <section id="panel-1" class="tab-panel panel-1 active"
+                 role="tabpanel" tabindex="0" aria-labelledby="tab-1">
+
+            <div class="panel-header">
+                <div class="panel-header-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                </div>
+                <div class="panel-header-body">
+					<button class="btn-infographie" data-infographie="1" data-src="https://recitmst.qc.ca/IMG/png/trousse-litteratie2.png" aria-label="Voir l'infographie du panneau Littératie IA">
+					<svg width="18" height="18" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<title>Avertissement</title>
+						<rect width="25" height="25" rx="5" fill="#fbbf24"/>
+						<text x="11" y="17" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="900" fill="#78350f">!</text>
+					</svg>
+					
+						Voir l'infographie
+					</button>
+                    <h2>Littératie IA</h2>
+                    <p>Comprendre l'intelligence artificielle pour mieux l'intégrer — et ne pas lui déléguer la réflexion. Cette section pose les bases conceptuelles essentielles pour tout enseignante ou enseignant en MST.</p>
+                    <span class="panel-badge">Comprendre</span>
+					
+
+                </div>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- Carte intro -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3>Jasons formation IA !</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">L'IA est-elle un obstacle au développement de l'intelligence ? Quelles stratégies mettre en place pour préserver l'effort cognitif — condition essentielle à un apprentissage réel ? Quelle est la place de l'IA en MST ? Voici les documents de formation que le RÉCIT MST utilise pour répondre à ces questions.</p>
+                        <p class="info-text"><strong>À noter :</strong> prêtez attention au pied de page des pages Web produites par le RÉCIT MST — vous y trouverez des règles de sécurité et des notes d'ingénierie utiles.</p>
+                 
+                      <div class="resource-item">
+                            <a href="https://www.unesco.org/fr/articles/referentiel-de-competences-en-ia-pour-les-enseignants" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Référentiel</span>Référentiel de compétences en IA pour les enseignants
+                            </a>
+                            <span class="resource-desc">Pour guider les enseignants dans l’usage judicieux ou problématique de l’intelligence artificielle (IA) dans l'éducation, ce référentiel définit les connaissances, les compétences et les valeurs que les enseignants doivent maîtriser à l’ère de l’IA.</span>
+                        </div>	
+                      <div class="resource-item">
+                            <a href="https://cdn-contenu.quebec.ca/cdn-contenu/education/Numerique/Guide-utilisation-pedagogique-ethique-legale-IA-personnel-enseignant.pdf" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>L’utilisation pédagogique, éthique et légale de l’intelligence artificielle générative
+                            </a>
+                            <span class="resource-desc">GUIDE DESTINÉ AU PERSONNEL ENSEIGNANT </span>
+                        </div>							
+					</div>						
+                </article>
+
+                <!-- Carte IA ou IAG -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                            </svg>
+                        </div>
+                        <h3>IA ou IAG ?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Tout n'est pas génératif ! Il est important de distinguer l'intelligence artificielle classique de l'intelligence artificielle générative pour bien situer leur rôle respectif en classe.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/jeu-ia-ou-iag.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-jeu">Jeu</span>IA ou IAG ? Tout n'est pas génératif !
+                            </a>
+                            <span class="resource-desc">Jeu interactif pour distinguer les deux types d'IA à travers des exemples concrets du quotidien.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/vocabulaire-ia.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Vocabulaire de l'IA
+                            </a>
+                            <span class="resource-desc">Un lexique essentiel pour se comprendre et communiquer avec précision sur l'IA en contexte scolaire.</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Carte Expliquons l'IA -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </div>
+                        <h3>Expliquons l'IA</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Des ressources pour démystifier le fonctionnement de l'IA et comprendre pourquoi ses erreurs sont précieuses sur le plan pédagogique.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/expliquons-ia-base.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Expliquons l'IA — notions de base
+                            </a>
+                            <span class="resource-desc">Introduction accessible aux principes fondamentaux de l'IA, adaptée au contexte éducatif québécois.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/effet-banc-optique.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-analyse">Analyse</span>Effet «banc d'optique»
+                            </a>
+                            <span class="resource-desc">Comment l'erreur de l'IAG devient un levier d'apprentissage puissant pour les élèves.</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ════════════════════════════════════════════
+             PANNEAU 2 : Pour l'enseignement
+        ════════════════════════════════════════════ -->
+        <section id="panel-2" class="tab-panel panel-2"
+                 role="tabpanel" tabindex="0" aria-labelledby="tab-2" hidden>
+
+            <div class="panel-header">
+                <div class="panel-header-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <div class="panel-header-body">
+					<button class="btn-infographie" data-infographie="2" data-src="https://recitmst.qc.ca/IMG/png/trousse-enseignement2.png" aria-label="Voir l'infographie du panneau Pour l'enseignement">
+					<svg width="18" height="18" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<title>Avertissement</title>
+						<rect width="25" height="25" rx="5" fill="#fbbf24"/>
+						<text x="11" y="17" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="900" fill="#78350f">!</text>
+					</svg>
+						Voir l'infographie
+					</button>
+                    <h2>Pour l'enseignement</h2>
+                    <p>Utiliser les IAG comme outils de planification, de différenciation et d'évaluation. Concevoir des ressources éducatives numériques de qualité avec l'aide de l'intelligence artificielle générative.</p>
+                    <span class="panel-badge">Enseigner</span>
+
+                </div>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- Art et science des requêtes -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+                            </svg>
+                        </div>
+                        <h3>Art et science des requêtes</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Une bonne requête génère une bien meilleure réponse. Ce guide couvre trois axes : planifier, différencier et évaluer avec les IAG, ainsi que la conception de ressources éducatives numériques (REN).</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/requetes-iag.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Art et science des requêtes
+                            </a>
+                            <span class="resource-desc">Stratégies concrètes pour formuler des requêtes efficaces selon vos intentions pédagogiques.<button class="btn-infographie" style="background: var(--tab2-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="2" data-src="https://recitmst.qc.ca/IMG/png/infographie-art-requete.png" aria-label="Voir l'infographie">Infographie</button></span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/requetes-mst.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-outil">Outil</span>Requêtes MST — modèles à ajuster
+                            </a>
+                            <span class="resource-desc">Des modèles de requêtes prêts à l'emploi, à personnaliser selon vos besoins et votre discipline.<button class="btn-infographie" style="background: var(--tab2-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="2" data-src="https://recitmst.qc.ca/IMG/png/infographie-requetes-mst.png" aria-label="Voir l'infographie">Infographie</button></span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Outils IA pour la classe -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                        <h3>Outils IA pour la classe</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Exemples de requêtes, d'instructions et de fichiers (PFEQ, PDA et autres) lisibles par les IAG pour améliorer la qualité de leurs réponses en contexte MST.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/intentions-page-web-mst.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Nos intentions pour la conception de pages Web
+                            </a>
+                            <span class="resource-desc">Les principes pédagogiques et didactiques qui guident la création de pages Web RÉCIT MST.</span>
+                        </div>
+
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/partager-page-web-tutoriel.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Tutoriels</span>Partager une page Web à vos élèves
+                            </a>
+                            <span class="resource-desc">Comment diffuser efficacement une page Web interactive auprès de vos groupes.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/exemples-pages-mst.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-outil">Exemples</span>Pages Web programmées par une IAG
+                            </a>
+                            <span class="resource-desc">Une galerie d'exemples concrets de pages Web MST générées par une IAG, pour s'inspirer ou réutiliser.</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ════════════════════════════════════════════
+             PANNEAU 3 : Pour l'apprentissage
+        ════════════════════════════════════════════ -->
+        <section id="panel-3" class="tab-panel panel-3"
+                 role="tabpanel" tabindex="0" aria-labelledby="tab-3" hidden>
+
+            <div class="panel-header">
+                <div class="panel-header-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                </div>
+                <div class="panel-header-body">
+					<button class="btn-infographie" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/trousse-apprentissage1.png" aria-label="Voir l'infographie du panneau Pour l'apprentissage">
+					<svg width="18" height="18" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<title>Avertissement</title>
+						<rect width="25" height="25" rx="5" fill="#fbbf24"/>
+						<text x="11" y="17" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="900" fill="#78350f">!</text>
+					</svg>
+						Voir l'infographie
+					</button
+                    <h2>Pour l'apprentissage</h2>
+                    <p>Des activités où l'élève est en posture active face à l'IA — en la questionnant, en la défiant et en développant son esprit critique. L'IA devient un levier, non un raccourci.</p>
+                    <span class="panel-badge">Apprendre</span>
+
+                </div>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- Créer ses modèles -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+                            </svg>
+                        </div>
+                        <h3>Créer ses modèles personnalisés pour comprendre l'IA</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Avec Vittascience, les élèves entraînent eux-mêmes un modèle d'IA — ce qui leur permet de comprendre concrètement comment l'IA apprend, et où se cachent les biais.</p>
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1obR3Z-fU6XYAmpe1RUerAMcP96bTOb-pQA6aPwVsp_Q/preview" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Présentation</span>Créer votre propre modèle avec Vittascience
+                            </a>
+                            <span class="resource-desc">Vue d'ensemble de la démarche complète, de la collecte de données à l'entraînement du modèle.<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/infographie-machine-learning.png" aria-label="Voir l'infographie">Infographie</button></span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1Xs_Fa4hfZRVYJG-nfvJfJO5Mlr22TQX0Vyt2vO1Kl-M/preview?slide=id.g3413ebfbe7e_0_11" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Exemple</span>Reconnaître : pouce en l'air
+                            </a>
+                            <span class="resource-desc">Modèle de reconnaissance de geste — un départ simple et ludique pour initier les élèves.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1Xs_Fa4hfZRVYJG-nfvJfJO5Mlr22TQX0Vyt2vO1Kl-M/preview?slide=id.g3d26667188e_0_0" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Exemple</span>Reconnaître : carte à jouer
+                            </a>
+                            <span class="resource-desc">Classification d'objets avec un jeu de cartes — riche en possibilités pédagogiques.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1Xs_Fa4hfZRVYJG-nfvJfJO5Mlr22TQX0Vyt2vO1Kl-M/preview?slide=id.g3d26667188e_0_13" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Exemple</span>Trier : céréales (robot)
+                            </a>
+                            <span class="resource-desc">Simulation d'un robot de tri industriel — excellent lien avec la technologie et la programmation.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1Xs_Fa4hfZRVYJG-nfvJfJO5Mlr22TQX0Vyt2vO1Kl-M/preview?slide=id.g3d26667188e_0_7" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-analyse">Analyse</span>Le danger des biais
+                            </a>
+                            <span class="resource-desc">Exemple concret pour explorer et discuter des biais dans les données d'entraînement — essentiel pour l'éthique de l'IA.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://fr.vittascience.com/ia/" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-outil">Outil</span>Accéder à Vittascience IA
+                            </a>
+                            <span class="resource-desc">Plateforme gratuite en ligne pour créer et entraîner des modèles d'IA directement dans le navigateur.</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Débogage assisté -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>Apprendre AVEC l'IA</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text"><strong>Débogage et plus :</strong> En soumettant une capture d'écran ou le code d'un programme à une IAG, les élèves obtiennent de l'aide pour déboguer — et découvrent des liens pédagogiques inattendus dans leur propre code.</p>
+                        <div class="resource-item">
+                            <a href="https://sites.google.com/recit.gouv.qc.ca/test-ia/programmation-par-blocs/test-makecodegemini" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Test</span>MakeCode et Gemini
+                            </a>
+                            <span class="resource-desc">Exemple de débogage d'un programme MakeCode avec l'aide de l'IAG Gemini.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://sites.google.com/recit.gouv.qc.ca/test-ia/programmation-par-blocs/test-scratchgemini-carr%C3%A9" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Test</span>Scratch et Gemini — carré
+                            </a>
+                            <span class="resource-desc">Analyse d'un programme Scratch dessinant un carré — un exemple simple pour aborder la géométrie et la programmation.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://sites.google.com/recit.gouv.qc.ca/test-ia/programmation-par-blocs/test-scratchgemini-triangle" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-test">Test</span>Scratch et Gemini — triangle
+                            </a>
+                            <span class="resource-desc">Variante avec un triangle — explore les angles et les propriétés des figures géométriques.</span>
+                        </div>
+				
+						
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1PzEbBUG0OexQXV_Is4k9XQ_vZhmKWq9SCQL4d4lcKdc/edit?usp=sharing" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Présentation</span>L'IA générative en classe de MST
+
+                            </a>
+                            <span class="resource-desc"><strong>Tuteur socratique : </strong> : Un terrain de jeu pour développer l’esprit critique - Demander à l'IAG de ne pas donner la réponse immédiatement, mais plutôt de poser des questions pour faire progresser l'élève est une piste à explorer.<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/infographie-tuteur-socratique.png" aria-label="Voir l'infographie">Infographie</button></span>
+                        </div>						
+						
+						
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/presentation/d/1lnwmBLIWmCmEc26JvzKTRwfaSzlEnN3mZJB2G6vhtVU/edit?usp=sharing" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Présentation</span>L'IA au service des démarches en science et technologie
+
+                            </a>
+                            <span class="resource-desc"><strong>Démarches en ST : </strong>Et si on exploitait la puissance des IAG pour vivre notre démarche de conception technologique? <br /><strong>Objet technologique :</strong> Tout produit, système ou procédé créé par l'humain pour répondre à un besoin, pallier une insuffisance ou résoudre un problème pratique.<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/infographie-demarches-st.png" aria-label="Voir l'infographie">Infographie</button>
+							</span>
+                        </div>	
+						
+						
+                        <div class="resource-item">
+                            <a href="https://docs.google.com/document/d/1jmNjHi6c3cLqWjYRFx4Fk7AsyBxA-OEiSc-sGV1vLLc/edit?usp=sharing" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Document</span>Utilisation de Notebook LM pour l’apprentissage chez nos élèves
+
+                            </a>
+                            <span class="resource-desc"><strong>Activité NotebookLM : </strong>L'élève a un outil puissant entre les mains pour apprendre. Mais comment? Audrey Lambert (CSSDN) nous propose une activité où les élèves exploite NotebookLM comme outil d'aide à l'étude.<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/notebooklm-aide-etude.png" aria-label="Voir l'infographie">Infographie</button>
+							</span>
+                        </div>						
+                    </div>
+                </article>
+
+                <!-- Activités Défier l'IA -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <h3>Activités «Défier l'IA»</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Le RÉCIT MST propose des structures d'activités pédagogiques alignées avec les neurosciences, où l'élève apprend à utiliser l'IA pour apprendre — et non pour éviter d'apprendre.<a href="#" class="btn-lien-externe btn-video" data-video="547KgWgy8aI" data-titre="Vidéo de NotebookLM à propos des activités Défier l'IA" style="background: var(--tab3-color); text-decoration: none;">Vidéo par NotebookLM - activités Défier l'IA</a></p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/defier-ia-guide.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Activité «Défier l'IA» expliquée
+                            </a>
+                            <span class="resource-desc">Description complète de la structure pédagogique, de la posture attendue et des étapes de l'activité.
+					<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/infographie-defier-ia.png" aria-label="Voir l'infographie">Infographie</button></span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/defier-ia-conception-guide.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Activité «Défier l'IA en DCT» expliquée
+                            </a>
+                            <span class="resource-desc">Adaptation de la démarche pour les cours de design, créativité et technologie.<button class="btn-infographie" style="background: var(--tab3-color); color: white; width: fit-content; padding: 0.1rem 0.4rem;" data-infographie="3" data-src="https://recitmst.qc.ca/IMG/png/infographie-defier-ia-dct-v1.png" aria-label="Voir l'infographie">Infographie</button>
+							</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/analyse-defis-math-recherche.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-analyse">Analyse</span>Carnets de défis IA — géométrie et neurosciences
+                            </a>
+                            <span class="resource-desc">Analyse des productions d'élèves dans des défis géométriques avec l'IA, sous l'angle des neurosciences.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/infographie-analyse-sources.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-infographie">Infographie</span>L'analyse de sources en MST
+                            </a>
+                            <span class="resource-desc">Démarche visuelle pour analyser des sources en mathématique, science et technologie.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/infographie-courte-habitats-neuroscience.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-infographie">Infographie</span>L'expert face à l'habitat
+                            </a>
+                            <span class="resource-desc">Exemple d'activité «Défier l'IA» sur les habitats, avec ancrage dans les neurosciences.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/guide-interactif-defier-ia.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-jeu">Jeu</span>Pistes didactiques et pédagogiques
+                            </a>
+                            <span class="resource-desc">Guide interactif pour explorer les pistes didactiques et pédagogiques liées à l'activité «Défier l'IA».</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/exemples-pages-mst.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-outil">Exemples</span>Voir les exemples MST de pages Web
+                            </a>
+                            <span class="resource-desc">Galerie de pages Web MST produites par une IAG pour inspirer votre propre pratique.</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ════════════════════════════════════════════
+             PANNEAU 4 : Et plus
+        ════════════════════════════════════════════ -->
+        <section id="panel-4" class="tab-panel panel-4"
+                 role="tabpanel" tabindex="0" aria-labelledby="tab-4" hidden>
+
+            <div class="panel-header">
+                <div class="panel-header-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </div>
+                <div class="panel-header-body">
+					<button class="btn-infographie" data-infographie="4" data-src="https://recitmst.qc.ca/IMG/png/trousse-approfondir2.png" aria-label="Voir l'infographie du panneau Approfondir">
+					<svg width="18" height="18" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<title>Avertissement</title>
+						<rect width="25" height="25" rx="5" fill="#fbbf24"/>
+						<text x="11" y="17" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="900" fill="#78350f">!</text>
+					</svg>
+						Voir l'infographie
+					</button>				
+                    <h2>Approfondir</h2>
+					
+                    <p>Pour aller plus loin : perspectives critiques, webinaires, ressources approfondies sur l'IA, les neurosciences et l'agentivité. Des contenus pour nourrir la réflexion et enrichir votre pratique.</p>
+                    <span class="panel-badge">Réfléchir</span>
+
+                </div>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- Perspectives et impacts -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </div>
+                        <h3>Perspectives et impacts</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Deux éclairages fondateurs pour prendre du recul sur ce que l'IA représente vraiment — et ce qu'elle ne remplace pas.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/michel-serres-2007.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-video">Vidéo</span>«Nous sommes condamnés à devenir intelligents.» — Michel Serres, 2007
+                            </a>
+                            <span class="resource-desc">Le philosophe Michel Serres réfléchit aux nouvelles technologies et à leur impact sur l'intelligence humaine — un texte visionnaire, toujours d'actualité.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/conference-yves-gingras.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-video">Conférence</span>L'IA n'est pas intelligente ! — Yves Gingras, UQAM 2019
+                            </a>
+                            <span class="resource-desc">Le sociologue des sciences Yves Gingras déconstruit le mythe de l'intelligence artificielle et rappelle ses limites fondamentales.</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Webinaires et ressources -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/>
+                            </svg>
+                        </div>
+                        <h3>Webinaires et ressources interactives</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Des webinaires pour pratiquer avec des outils concrets, notamment Vittascience et micro:bit, ainsi qu'une ressource interactive sur les réseaux de neurones.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/webinaire-vittascience-juin25.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-webinaire">Webinaire</span>Utiliser des outils d'IA avec nos élèves — Vittascience
+                            </a>
+                            <span class="resource-desc">Enregistrement et ressources du webinaire sur l'utilisation pédagogique de Vittascience IA en classe.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/webinaire-vittascience-microbit-ia-fev26.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-webinaire">Webinaire</span>Vittascience, micro:bit et IA — 10 février
+                            </a>
+                            <span class="resource-desc">Intégration de la programmation physique (micro:bit) et de l'apprentissage machine avec Vittascience.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://classroom.amplify.com/activity/67cefb804bc71591ffb340f1?checkAmplifyLogin=true&lang=fr" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-jeu">Jeu</span>Entraîne ton réseau de neurones — Amplify
+                            </a>
+                            <span class="resource-desc">Activité interactive pour comprendre le fonctionnement d'un réseau de neurones artificiels, directement dans le navigateur.</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Aller plus loin -->
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                        </div>
+                        <h3>Aller plus loin</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="info-text">Approfondissements sur les thèmes liés à l'IA, aux neurosciences et à l'agentivité — pour les enseignants qui souhaitent développer une solide culture critique de l'IA.</p>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/IMG/html/effet-banc-optique.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-analyse">Analyse</span>L'erreur des IAG comme levier d'apprentissage
+                            </a>
+                            <span class="resource-desc">Pourquoi et comment exploiter pédagogiquement les erreurs que font les IAG en contexte scolaire.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/agentivite.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>À propos de l'agentivité
+                            </a>
+                            <span class="resource-desc">La notion d'agentivité dans un contexte où l'IA pourrait réduire la capacité d'agir de l'élève — un enjeu central en pédagogie.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/reseau-neurones.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Guide</span>Les réseaux de neurones expliqués
+                            </a>
+                            <span class="resource-desc">Explication accessible du fonctionnement des réseaux de neurones artificiels, en lien avec les neurosciences.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/refutation-ia-effort-cognitif.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-analyse">Analyse</span>L'IA et l'effort cognitif
+                            </a>
+                            <span class="resource-desc">Réfutation argumentée de l'idée que l'IA pourrait remplacer l'effort cognitif — indispensable à la construction des savoirs.</span>
+                        </div>
+                        <div class="resource-item">
+                            <a href="https://recitmst.qc.ca/presentation-neurosciences-ia.html" target="_blank" rel="noopener" class="resource-link">
+                                <span class="type-tag tag-guide">Présentation</span>L'IA et les neurosciences
+                            </a>
+                            <span class="resource-desc">Croisement entre les apports des neurosciences de l'apprentissage et les usages de l'IA en contexte éducatif.</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <button id="btn-apropos" class="footer-link-btn">À propos de cette trousse</button> | <a href="https://docs.google.com/document/d/1gJr3QGRnRKmFOFBzWeF7chvOBumnugnSagOj1mlhy3Y/edit?usp=sharing" target="_blank">Ingénierie</a> RÉCIT MST (<a href="mailto:mst@recit.gouv.qc.ca">mst@recit.gouv.qc.ca</a>) | Programmation par une IAG avec <a href="https://drive.google.com/file/d/1dTVZGoRG6YVKinoENRLTWRhY4FVWxdPG/view?usp=sharing" style="text-decoration:underline;" target="_blank">ces instructions de sécurité</a>
+    </footer>
+
+
+	<div id="modal-apropos" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titre">
+		<div class="modal-box">
+			<div class="modal-header">
+				<h2 id="modal-titre">À propos de cette trousse</h2>
+				<button class="modal-close" id="modal-close-btn" aria-label="Fermer">&#x2715;</button>
+			</div>
+			<div class="modal-body">
+				<p><strong>Clientèle cible de la présente trousse :</strong> Conseillères et conseillers pédagogiques.</p>
+				<p>Cette page, à ajuster à vos besoins, rassemble les ressources de formation continue développées par le <strong>RÉCIT MST</strong> pour accompagner les enseignantes et enseignants de mathématique, science et technologie dans leur rapport à l'intelligence artificielle générative (IAG).</p>
+				<p>La question centrale n'est pas «&nbsp;comment utiliser l'IA&nbsp;», mais <strong>comment l'intégrer sans compromettre l'apprentissage réel</strong>. Les neurosciences cognitives sont claires&nbsp;: c'est l'effort cognitif — la résistance, la recherche, l'erreur surmontée — qui ancre les savoirs. Une IAG qui répond à la place de l'élève n'enseigne pas. Elle prive.</p>
+				<p>Cette trousse est organisée en quatre axes.</p>
+				<div class="modal-section">
+					<p><strong>Littératie IA</strong> — Pose les bases conceptuelles&nbsp;: distinguer l'IA classique de l'IAG, comprendre leur fonctionnement, nommer avec précision ce qu'on utilise.</p>
+				</div>
+				<div class="modal-section">
+					<p><strong>Pour l'enseignement</strong> — Outils concrets pour planifier, différencier et évaluer avec les IAG, et pour concevoir des ressources éducatives numériques de qualité.</p>
+				</div>
+				<div class="modal-section">
+					<p><strong>Pour l'apprentissage</strong> — Structures d'activités où l'élève est en posture active&nbsp;: il questionne, défie, entraîne et critique l'IA, plutôt que de la consulter passivement.</p>
+				</div>
+				<div class="modal-section">
+					<p><strong>Approfondir</strong> — Perspectives critiques, webinaires et approfondissements sur les neurosciences, l'agentivité et les enjeux éthiques de l'IA en éducation.</p>
+				</div>
+				<hr />
+				<p><strong>À propos du fichier audio, vidéo et des infographies :</strong> Dans une intention de modélisation, nous avons utilisé NotebookLM pour produire les fichiers  « imparfaits » audio et vidéo, ainsi que les d'infographies. Gemini (Créer une image) a ajusté certains détails des images générées par NotebookLM, et même créé de nouvelles infographies selon le style d'un modèle et contgenu que nous lui avons fourni.</p>
+				<p><strong>Requêtes</strong>
+				<div class="modal-section">
+					<p><strong>NotebookLM</strong> — Couleurs #faa22a, #0069bf. Mettre des majuscules seulement sur la première lettre d'un titre, sauf les termes suivants : MST, IA, IAG, ST, REN. Éviter les mots anglophones.</p>
+					<p><strong>Gemini</strong> — Remplace le terme ERROR par ERREUR. Génère une infographie en conservsant le style du fichier modele.png, avec le contenu suivant : [CONTENU À INSÉRER ou JOINDRE]</p>
+				</div>				
+				
+				<p>Version 29 mars 2026</p>
+				<p>Contenu du <a href="http://recitmst.qc.ca" property="cc:attributionName" rel="cc:attributionURL">RÉCIT MST</a> sous licence <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Contrat Creative Commons" style="border-width:0" 
+src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modal-infographie" class="modal-infographie" role="dialog" aria-modal="true" aria-labelledby="modal-infographie-titre">
+    <div class="modal-infographie-box">
+        <div class="modal-infographie-header couleur-1" id="modal-infographie-header">
+            <h2 id="modal-infographie-titre">Infographie</h2>
+            <button class="modal-infographie-close" id="modal-infographie-close" aria-label="Fermer">&#x2715;</button>
+        </div>
+        <div class="modal-infographie-body">
+            <img id="modal-infographie-img" src="" alt="Infographie du panneau">
+        </div>
+    </div>
+</div>
+<div id="modal-video" class="modal-video" role="dialog" aria-modal="true" aria-labelledby="modal-video-titre">
+    <div class="modal-video-box">
+        <div class="modal-video-header">
+            <p class="modal-video-titre" id="modal-video-titre"></p>
+            <button class="modal-video-close" id="modal-video-close" aria-label="Fermer la vidéo">&#x2715;</button>
+        </div>
+        <div class="modal-video-ratio">
+            <iframe id="modal-video-iframe"
+                src=""
+                title="Vidéo YouTube"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+
+<div id="sr-announcer" role="status" aria-live="polite" class="visually-hidden"></div>
+<div id="sr-announcer" role="status" aria-live="polite" class="visually-hidden"></div>
+<div id="error-container" role="alert" aria-live="assertive"></div>
+
+<script>
+(function() {
+    'use strict';
+
+    function announceToSR(message) {
+        var announcer = document.getElementById('sr-announcer');
+        if (!announcer) return;
+        announcer.textContent = '';
+        requestAnimationFrame(function() {
+            announcer.textContent = message;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+	// ── Lecteur audio en-tête ──────────────────
+        var audioSrc = 'https://recitmst.qc.ca/IMG/mp3/trousse-ia-mst-vu-par-notebooklm.mp3';
+        var audio = new Audio(audioSrc);
+        var playBtn = document.getElementById('audio-play-btn');
+        var progressWrap = document.getElementById('audio-progress-wrap');
+        var progressBar = document.getElementById('audio-progress');
+        var timeDisplay = document.getElementById('audio-time');
+        var isPlaying = false;
+
+        function formatTime(s) {
+            var m = Math.floor(s / 60);
+            var sec = Math.floor(s % 60);
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                playBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg> Écouter la trousse';
+                playBtn.setAttribute('aria-label', 'Écouter : La trousse IA du MST « vue » par NotebookLM');
+            } else {
+                audio.play();
+                isPlaying = true;
+                progressWrap.classList.add('visible');
+                playBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Pause';
+                playBtn.setAttribute('aria-label', 'Mettre en pause');
+            }
+        });
+
+        audio.addEventListener('timeupdate', function() {
+            if (audio.duration) {
+                progressBar.value = (audio.currentTime / audio.duration) * 100;
+                timeDisplay.textContent = formatTime(audio.currentTime);
+            }
+        });
+
+        progressBar.addEventListener('input', function() {
+            if (audio.duration) {
+                audio.currentTime = (progressBar.value / 100) * audio.duration;
+            }
+        });
+
+        audio.addEventListener('ended', function() {
+            isPlaying = false;
+            progressBar.value = 0;
+            timeDisplay.textContent = '0:00';
+            progressWrap.classList.remove('visible');
+            playBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg> Écouter la trousse';
+            playBtn.setAttribute('aria-label', 'Écouter : La trousse IA du MST « vue » par NotebookLM');
+        });
+        // ── Fin lecteur audio ──────────────────────
+		
+		// ── Modale infographie ─────────────────────
+        var modalInfographie = document.getElementById('modal-infographie');
+        var modalInfographieHeader = document.getElementById('modal-infographie-header');
+        var modalInfographieImg = document.getElementById('modal-infographie-img');
+        var modalInfographieTitre = document.getElementById('modal-infographie-titre');
+        var modalInfographieClose = document.getElementById('modal-infographie-close');
+        var dernierBtnInfographie = null;
+
+        var titresInfographie = {
+            '1': 'Infographie — Littératie IA',
+            '2': 'Infographie — Pour l\'enseignement',
+            '3': 'Infographie — Pour l\'apprentissage',
+            '4': 'Infographie — Approfondir'
+        };
+
+        document.querySelectorAll('.btn-infographie').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var panneau = btn.getAttribute('data-infographie');
+                var src = btn.getAttribute('data-src');
+                dernierBtnInfographie = btn;
+                modalInfographieImg.src = src;
+                modalInfographieImg.alt = titresInfographie[panneau] || 'Infographie';
+                modalInfographieTitre.textContent = titresInfographie[panneau] || 'Infographie';
+                modalInfographieHeader.className = 'modal-infographie-header couleur-' + panneau;
+                modalInfographie.classList.add('open');
+                modalInfographieClose.focus();
+                announceToSR('Infographie ouverte');
+            });
+        });
+
+        function closeModalInfographie() {
+            modalInfographie.classList.remove('open');
+            modalInfographieImg.src = '';
+            if (dernierBtnInfographie) dernierBtnInfographie.focus();
+            announceToSR('Infographie fermée');
+        }
+
+        modalInfographieClose.addEventListener('click', closeModalInfographie);
+
+        modalInfographie.addEventListener('click', function(e) {
+            if (e.target === modalInfographie) closeModalInfographie();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalInfographie.classList.contains('open')) closeModalInfographie();
+        });
+// ── Fin modale infographie ─────────────────
+
+        // ── Modale vidéo YouTube ───────────────────
+        var modalVideo = document.getElementById('modal-video');
+        var modalVideoIframe = document.getElementById('modal-video-iframe');
+        var modalVideoTitre = document.getElementById('modal-video-titre');
+        var modalVideoClose = document.getElementById('modal-video-close');
+        var dernierBtnVideo = null;
+
+        function openModalVideo(videoId, titre, triggerBtn) {
+            dernierBtnVideo = triggerBtn || null;
+            modalVideoTitre.textContent = titre || 'Vidéo';
+            modalVideoIframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0';
+            modalVideo.classList.add('open');
+            modalVideoClose.focus();
+            announceToSR('Vidéo ouverte : ' + (titre || ''));
+        }
+
+        function closeModalVideo() {
+            modalVideo.classList.remove('open');
+            modalVideoIframe.src = '';
+            if (dernierBtnVideo) dernierBtnVideo.focus();
+            announceToSR('Vidéo fermée');
+        }
+
+        document.querySelectorAll('[data-video]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModalVideo(
+                    btn.getAttribute('data-video'),
+                    btn.getAttribute('data-titre') || '',
+                    btn
+                );
+            });
+        });
+
+        modalVideoClose.addEventListener('click', closeModalVideo);
+
+        modalVideo.addEventListener('click', function(e) {
+            if (e.target === modalVideo) closeModalVideo();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalVideo.classList.contains('open')) closeModalVideo();
+        });
+        // ── Fin modale vidéo YouTube ───────────────
+		
+        var tabs = document.querySelectorAll('.tab-btn');
+        var panels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(tabBtn) {
+            var targetId = tabBtn.getAttribute('aria-controls');
+
+            tabs.forEach(function(t) {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+                t.setAttribute('tabindex', '-1');
+            });
+            panels.forEach(function(p) {
+                p.classList.remove('active');
+                p.hidden = true;
+            });
+
+            tabBtn.classList.add('active');
+            tabBtn.setAttribute('aria-selected', 'true');
+            tabBtn.setAttribute('tabindex', '0');
+
+            var targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+                targetPanel.hidden = false;
+                announceToSR('Onglet activé : ' + tabBtn.querySelector('.tab-label').textContent.trim());
+            }
+        }
+
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() { activateTab(tab); });
+
+            tab.addEventListener('keydown', function(e) {
+                var index = Array.from(tabs).indexOf(tab);
+                var nextTab = null;
+
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextTab = tabs[(index + 1) % tabs.length];
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    nextTab = tabs[(index - 1 + tabs.length) % tabs.length];
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    nextTab = tabs[0];
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    nextTab = tabs[tabs.length - 1];
+                }
+
+                if (nextTab) {
+                    activateTab(nextTab);
+                    nextTab.focus();
+                }
+            });
+        });
+		// Modale À propos
+			var btnApropos = document.getElementById('btn-apropos');
+			var modalApropos = document.getElementById('modal-apropos');
+			var modalCloseBtn = document.getElementById('modal-close-btn');
+
+			function openModal() {
+				modalApropos.classList.add('open');
+				modalCloseBtn.focus();
+			}
+
+			function closeModal() {
+				modalApropos.classList.remove('open');
+				btnApropos.focus();
+			}
+
+			btnApropos.addEventListener('click', openModal);
+			modalCloseBtn.addEventListener('click', closeModal);
+
+			modalApropos.addEventListener('click', function(e) {
+				if (e.target === modalApropos) closeModal();
+			});
+
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'Escape' && modalApropos.classList.contains('open')) closeModal();
+			});
+				});
+
+				window.addEventListener('error', function(event) {
+					console.error('Erreur globale:', event.error);
+				});
+
+				window.addEventListener('unhandledrejection', function(event) {
+					console.error('Promesse rejetée:', event.reason);
+					event.preventDefault();
+				});
+
+})();
+</script>
+
+</body>
+</html>
